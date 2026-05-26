@@ -1,644 +1,887 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sahid Hernandez | Ingeniería Mecatrónica & Robótica</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --sidebar-bg: #1a1f2e;
-            --main-bg: #f4f1eb;
-            --sidebar-text: #c8d0e0;
-            --sidebar-muted: #7a8599;
-            --accent: #3b82f6;
-            --accent-hover: #60a5fa;
-            --text-dark: #1a1f2e;
-            --text-body: #374151;
-            --text-muted: #6b7280;
-            --border: #d1c9b8;
-            --border-light: #e5ddd0;
-            --section-title: #111827;
-            --badge-bg: #e8e2d8;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sahid Hernandez | Robótica & Mecatrónica</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Outfit:wght@300;400;500;600;700&family=Crimson+Pro:ital,wght@0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+    --bg: #080d18;
+    --sidebar-bg: #0b1120;
+    --main-bg: #0d1526;
+    --accent: #38bdf8;
+    --accent2: #818cf8;
+    --accent3: #34d399;
+    --text: #e2e8f0;
+    --text-muted: #64748b;
+    --text-dim: #94a3b8;
+    --border: #1e2d45;
+    --border-bright: #2a4060;
+    --card-bg: #0f1d30;
+    --glow: rgba(56,189,248,0.15);
+}
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+* { margin:0; padding:0; box-sizing:border-box; }
 
-        body {
-            font-family: 'DM Sans', sans-serif;
-            background: var(--main-bg);
-            color: var(--text-body);
-            display: flex;
-            min-height: 100vh;
-        }
+html { scroll-behavior: smooth; }
 
-        /* ─── SIDEBAR ─────────────────────────────── */
-        #sidebar {
-            width: 270px;
-            min-width: 270px;
-            background: var(--sidebar-bg);
-            padding: 40px 24px 60px;
-            position: fixed;
-            top: 0; left: 0;
-            height: 100vh;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 28px;
-            border-right: 1px solid #2d3447;
-        }
+body {
+    font-family: 'Outfit', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    display: flex;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
 
-        .sidebar-name {
-            font-family: 'Crimson Pro', serif;
-            font-size: 1.75rem;
-            font-weight: 700;
-            color: var(--accent);
-            line-height: 1.1;
-            letter-spacing: -0.01em;
-        }
+/* ── CANVAS BACKGROUND ── */
+#bg-canvas {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.35;
+}
 
-        .sidebar-photo {
-            width: 140px;
-            height: 140px;
-            border-radius: 50%;
-            background: #2d3447;
-            border: 3px solid #3a4160;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-            margin: 0 auto;
-            font-size: 3rem;
-            color: var(--sidebar-muted);
-        }
+/* ── SCAN LINE OVERLAY ── */
+body::after {
+    content: '';
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0,0,0,0.03) 2px,
+        rgba(0,0,0,0.03) 4px
+    );
+    pointer-events: none;
+    z-index: 1;
+}
 
-        .sidebar-photo img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
+/* ── SIDEBAR ── */
+#sidebar {
+    width: 260px;
+    min-width: 260px;
+    background: var(--sidebar-bg);
+    border-right: 1px solid var(--border);
+    padding: 36px 20px 50px;
+    position: fixed;
+    top: 0; left: 0;
+    height: 100vh;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    z-index: 10;
+    animation: slideInLeft 0.6s ease both;
+}
 
-        .sidebar-tagline {
-            font-size: 0.82rem;
-            color: var(--sidebar-muted);
-            line-height: 1.55;
-            font-style: italic;
-        }
+#sidebar::before {
+    content: '';
+    position: absolute;
+    top: 0; right: 0;
+    width: 1px;
+    height: 100%;
+    background: linear-gradient(to bottom, transparent, var(--accent), transparent);
+    opacity: 0.4;
+}
 
-        .sidebar-links {
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-        }
+@keyframes slideInLeft {
+    from { transform: translateX(-30px); opacity: 0; }
+    to   { transform: translateX(0);     opacity: 1; }
+}
 
-        .sidebar-links a {
-            color: var(--accent);
-            text-decoration: none;
-            font-size: 0.82rem;
-            font-weight: 500;
-            transition: color 0.2s;
-        }
-        .sidebar-links a:hover { color: var(--accent-hover); }
+.sidebar-label {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.6rem;
+    color: var(--accent);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    opacity: 0.7;
+}
 
-        .sidebar-repo {
-            font-size: 0.72rem;
-            color: var(--sidebar-muted);
-            margin-top: 2px;
-        }
+.sidebar-name {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #fff;
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+}
+.sidebar-name span {
+    color: var(--accent);
+}
 
-        .dl-buttons {
-            display: flex;
-            gap: 6px;
-            flex-wrap: wrap;
-        }
-        .dl-btn {
-            background: #2d3447;
-            color: var(--sidebar-text);
-            border: 1px solid #3a4160;
-            padding: 6px 10px;
-            border-radius: 4px;
-            font-size: 0.7rem;
-            text-decoration: none;
-            font-family: 'JetBrains Mono', monospace;
-            transition: all 0.2s;
-            text-align: center;
-            line-height: 1.3;
-        }
-        .dl-btn:hover {
-            background: #3a4160;
-            border-color: var(--accent);
-            color: var(--accent);
-        }
-        .dl-btn strong { display: block; font-size: 0.78rem; }
+.sidebar-photo {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 2px solid var(--border-bright);
+    margin: 0 auto;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--card-bg);
+    font-size: 2.5rem;
+    transition: border-color 0.3s;
+}
+.sidebar-photo:hover {
+    border-color: var(--accent);
+    box-shadow: 0 0 20px var(--glow);
+}
+.sidebar-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.sidebar-photo::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: linear-gradient(135deg, rgba(56,189,248,0.1) 0%, transparent 60%);
+    pointer-events: none;
+}
 
-        .sidebar-divider {
-            border: none;
-            border-top: 1px solid #2d3447;
-        }
+.sidebar-tagline {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+    font-family: 'Share Tech Mono', monospace;
+    border-left: 2px solid var(--border-bright);
+    padding-left: 10px;
+}
 
-        .sidebar-footer {
-            margin-top: auto;
-            font-size: 0.72rem;
-            color: var(--sidebar-muted);
-            line-height: 1.6;
-        }
-        .sidebar-footer a { color: var(--accent); text-decoration: none; }
+.status-dot {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.72rem;
+    color: var(--accent3);
+    font-family: 'Share Tech Mono', monospace;
+}
+.status-dot::before {
+    content: '';
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--accent3);
+    animation: pulse-dot 2s infinite;
+    flex-shrink: 0;
+}
+@keyframes pulse-dot {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50%       { opacity: 0.4; transform: scale(0.7); }
+}
 
-        /* ─── MAIN CONTENT ────────────────────────── */
-        #main {
-            margin-left: 270px;
-            padding: 50px 60px 80px 60px;
-            max-width: 900px;
-            width: 100%;
-        }
+.dl-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+.dl-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--card-bg);
+    color: var(--text-dim);
+    border: 1px solid var(--border);
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    text-decoration: none;
+    font-family: 'Share Tech Mono', monospace;
+    transition: all 0.25s;
+    position: relative;
+    overflow: hidden;
+}
+.dl-btn::before {
+    content: '';
+    position: absolute;
+    left: -100%; top: 0;
+    width: 100%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(56,189,248,0.08), transparent);
+    transition: left 0.4s;
+}
+.dl-btn:hover::before { left: 100%; }
+.dl-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    box-shadow: 0 0 12px rgba(56,189,248,0.1);
+}
+.dl-btn .btn-icon {
+    font-size: 0.85rem;
+    opacity: 0.7;
+}
 
-        /* Page title block */
-        .page-title {
-            margin-bottom: 36px;
-            padding-bottom: 24px;
-            border-bottom: 1px solid var(--border);
-        }
-        .page-title h1 {
-            font-family: 'Crimson Pro', serif;
-            font-size: 2.6rem;
-            font-weight: 700;
-            color: var(--section-title);
-            line-height: 1.1;
-            letter-spacing: -0.02em;
-        }
-        .page-title .subtitle {
-            font-style: italic;
-            color: var(--text-muted);
-            font-size: 1rem;
-            margin-top: 6px;
-            font-family: 'Crimson Pro', serif;
-        }
+.sidebar-divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    position: relative;
+}
+.sidebar-divider::after {
+    content: '◆';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 0.5rem;
+    color: var(--accent);
+    background: var(--sidebar-bg);
+    padding: 0 4px;
+}
 
-        /* Contact buttons */
-        .contact-row {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-            margin-top: 16px;
-        }
-        .contact-btn {
-            padding: 6px 14px;
-            border-radius: 4px;
-            text-decoration: none;
-            font-size: 0.82rem;
-            font-weight: 500;
-            transition: opacity 0.2s, transform 0.2s;
-        }
-        .contact-btn:hover { opacity: 0.85; transform: translateY(-1px); }
-        .btn-github { background: #24292e; color: #fff; }
-        .btn-linkedin { background: #0077b5; color: #fff; }
-        .btn-email { background: #dc2626; color: #fff; }
+.sidebar-footer {
+    margin-top: auto;
+    font-size: 0.68rem;
+    color: var(--text-muted);
+    line-height: 1.7;
+    font-family: 'Share Tech Mono', monospace;
+}
 
-        /* Sobre Mí */
-        .summary-block {
-            margin-bottom: 36px;
-            padding-bottom: 28px;
-            border-bottom: 1px solid var(--border-light);
-        }
-        .summary-block p {
-            font-size: 0.95rem;
-            line-height: 1.7;
-            color: var(--text-body);
-            margin-bottom: 10px;
-        }
+/* ── MAIN ── */
+#main {
+    margin-left: 260px;
+    padding: 50px 55px 100px 55px;
+    max-width: 920px;
+    width: 100%;
+    position: relative;
+    z-index: 2;
+}
 
-        /* Sections */
-        .section {
-            margin-bottom: 40px;
-            padding-bottom: 32px;
-            border-bottom: 1px solid var(--border-light);
-        }
-        .section:last-child { border-bottom: none; }
+/* ── HERO ── */
+.hero {
+    margin-bottom: 40px;
+    padding-bottom: 32px;
+    border-bottom: 1px solid var(--border);
+    animation: fadeUp 0.7s 0.2s ease both;
+}
 
-        h2 {
-            font-family: 'Crimson Pro', serif;
-            font-size: 1.65rem;
-            font-weight: 600;
-            color: var(--section-title);
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
+@keyframes fadeUp {
+    from { transform: translateY(20px); opacity: 0; }
+    to   { transform: translateY(0);    opacity: 1; }
+}
 
-        /* Skills grid */
-        .skills-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 16px;
-        }
-        .skill-card {
-            background: #fff;
-            border: 1px solid var(--border);
-            border-top: 3px solid var(--accent);
-            padding: 18px;
-            border-radius: 6px;
-        }
-        .skill-card h3 {
-            font-size: 0.88rem;
-            font-weight: 600;
-            color: var(--section-title);
-            margin-bottom: 10px;
-            font-family: 'DM Sans', sans-serif;
-        }
-        .skill-card ul {
-            padding-left: 16px;
-            color: var(--text-muted);
-            font-size: 0.8rem;
-            line-height: 1.6;
-        }
-        .skill-card li { margin-bottom: 4px; }
+.hero-eyebrow {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--accent);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.hero-eyebrow::before {
+    content: '';
+    width: 24px;
+    height: 1px;
+    background: var(--accent);
+}
 
-        /* Timeline */
-        .timeline { display: flex; flex-direction: column; gap: 0; }
+.hero h1 {
+    font-size: 2.8rem;
+    font-weight: 700;
+    color: #fff;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    margin-bottom: 8px;
+}
+.hero h1 .highlight {
+    color: var(--accent);
+    position: relative;
+}
 
-        .tl-item {
-            display: flex;
-            gap: 0;
-            position: relative;
-        }
-        .tl-item:not(:last-child)::after {
-            content: '';
-            position: absolute;
-            left: 70px;
-            top: 28px;
-            bottom: -1px;
-            width: 1px;
-            background: var(--border);
-        }
+.hero-sub {
+    font-size: 0.88rem;
+    color: var(--text-muted);
+    font-family: 'Share Tech Mono', monospace;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.hero-sub .sep { color: var(--border-bright); }
 
-        .tl-left {
-            width: 80px;
-            min-width: 80px;
-            padding-top: 4px;
-            display: flex;
-            flex-direction: column;
-            align-items: flex-end;
-            padding-right: 18px;
-            position: relative;
-        }
-        .tl-left::after {
-            content: '';
-            position: absolute;
-            right: -5px;
-            top: 8px;
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background: var(--main-bg);
-            border: 2px solid var(--accent);
-        }
+.contact-row {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 16px;
+}
+.contact-btn {
+    padding: 7px 16px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 0.78rem;
+    font-weight: 500;
+    font-family: 'Share Tech Mono', monospace;
+    border: 1px solid var(--border-bright);
+    color: var(--text-dim);
+    background: var(--card-bg);
+    transition: all 0.25s;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+.contact-btn:hover {
+    color: var(--accent);
+    border-color: var(--accent);
+    box-shadow: 0 0 16px var(--glow);
+    transform: translateY(-2px);
+}
 
-        .tl-badge {
-            font-size: 0.65rem;
-            font-weight: 600;
-            color: #fff;
-            background: var(--accent);
-            padding: 2px 7px;
-            border-radius: 10px;
-            white-space: nowrap;
-            text-transform: uppercase;
-            letter-spacing: 0.04em;
-            font-family: 'JetBrains Mono', monospace;
-        }
+/* ── SUMMARY ── */
+.summary {
+    margin-bottom: 36px;
+    padding-bottom: 28px;
+    border-bottom: 1px solid var(--border);
+    animation: fadeUp 0.7s 0.35s ease both;
+}
+.summary p {
+    font-size: 0.92rem;
+    line-height: 1.75;
+    color: var(--text-dim);
+    margin-bottom: 10px;
+}
 
-        .tl-body {
-            padding: 0 0 32px 20px;
-            flex: 1;
-        }
-        .tl-body h3 {
-            font-family: 'Crimson Pro', serif;
-            font-size: 1.2rem;
-            font-weight: 600;
-            color: var(--section-title);
-            margin-bottom: 3px;
-            line-height: 1.3;
-        }
-        .tl-team {
-            font-size: 0.78rem;
-            color: var(--accent);
-            font-weight: 600;
-            margin-bottom: 6px;
-        }
-        .tl-body p {
-            font-size: 0.87rem;
-            color: var(--text-body);
-            line-height: 1.65;
-        }
+/* ── SECTIONS ── */
+.section {
+    margin-bottom: 44px;
+    padding-bottom: 36px;
+    border-bottom: 1px solid var(--border);
+    animation: fadeUp 0.7s ease both;
+}
+.section:last-child { border-bottom: none; }
 
-        .tl-img {
-            width: 100%;
-            max-width: 440px;
-            height: 200px;
-            object-fit: cover;
-            border-radius: 6px;
-            margin-top: 12px;
-            border: 1px solid var(--border);
-            display: block;
-        }
+.section-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 24px;
+}
+.section-header h2 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #fff;
+    letter-spacing: 0.01em;
+}
+.section-tag {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.62rem;
+    color: var(--accent);
+    background: rgba(56,189,248,0.08);
+    border: 1px solid rgba(56,189,248,0.2);
+    padding: 2px 8px;
+    border-radius: 3px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
 
-        /* Publication cards */
-        .pub-card {
-            background: #fff;
-            border: 1px solid var(--border);
-            border-left: 3px solid var(--accent);
-            padding: 14px 16px;
-            border-radius: 4px;
-            margin-top: 12px;
-        }
-        .pub-card strong {
-            font-size: 0.85rem;
-            color: var(--section-title);
-            display: block;
-            margin-bottom: 5px;
-            line-height: 1.4;
-        }
-        .pub-card p {
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            line-height: 1.5;
-            margin-bottom: 8px;
-        }
-        .pub-link {
-            color: var(--accent);
-            text-decoration: none;
-            font-size: 0.78rem;
-            font-weight: 600;
-        }
-        .pub-link:hover { text-decoration: underline; }
+/* ── SKILLS ── */
+.skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 14px;
+}
+.skill-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-top: 2px solid var(--accent);
+    padding: 18px;
+    border-radius: 8px;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+}
+.skill-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: linear-gradient(135deg, rgba(56,189,248,0.04) 0%, transparent 60%);
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+.skill-card:hover::before { opacity: 1; }
+.skill-card:hover {
+    border-color: var(--border-bright);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.3), 0 0 0 1px rgba(56,189,248,0.1);
+}
+.skill-card h3 {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--accent);
+    margin-bottom: 12px;
+    font-family: 'Share Tech Mono', monospace;
+    letter-spacing: 0.05em;
+}
+.skill-card ul {
+    padding-left: 14px;
+    color: var(--text-muted);
+    font-size: 0.78rem;
+    line-height: 1.65;
+    list-style: none;
+    padding-left: 0;
+}
+.skill-card li {
+    margin-bottom: 5px;
+    padding-left: 12px;
+    position: relative;
+}
+.skill-card li::before {
+    content: '›';
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+    font-weight: 700;
+}
 
-        /* ─── RESPONSIVE ──────────────────────────── */
-        @media (max-width: 800px) {
-            body { flex-direction: column; }
-            #sidebar {
-                width: 100%;
-                min-width: unset;
-                position: relative;
-                height: auto;
-                padding: 30px 20px;
-                flex-direction: row;
-                flex-wrap: wrap;
-                gap: 16px;
-            }
-            .sidebar-photo { width: 80px; height: 80px; font-size: 2rem; }
-            #main { margin-left: 0; padding: 30px 20px; }
-            .tl-left { width: 60px; min-width: 60px; }
-        }
-    </style>
+/* ── TIMELINE ── */
+.timeline { display: flex; flex-direction: column; }
+
+.tl-item {
+    display: flex;
+    gap: 0;
+    position: relative;
+}
+.tl-item:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    left: 66px;
+    top: 28px;
+    bottom: 0;
+    width: 1px;
+    background: linear-gradient(to bottom, var(--border-bright), var(--border));
+}
+
+.tl-left {
+    width: 74px;
+    min-width: 74px;
+    padding-top: 2px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    padding-right: 16px;
+    position: relative;
+}
+.tl-left::after {
+    content: '';
+    position: absolute;
+    right: -5px;
+    top: 8px;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--bg);
+    border: 2px solid var(--accent);
+    box-shadow: 0 0 8px var(--glow);
+    transition: all 0.3s;
+}
+.tl-item:hover .tl-left::after {
+    background: var(--accent);
+    box-shadow: 0 0 16px rgba(56,189,248,0.6);
+}
+
+.tl-badge {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.58rem;
+    font-weight: 600;
+    color: var(--accent);
+    background: rgba(56,189,248,0.08);
+    border: 1px solid rgba(56,189,248,0.2);
+    padding: 3px 6px;
+    border-radius: 3px;
+    white-space: nowrap;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    text-align: right;
+}
+
+.tl-body {
+    padding: 0 0 36px 22px;
+    flex: 1;
+    transition: all 0.2s;
+}
+
+.tl-item:hover .tl-body {
+    padding-left: 26px;
+}
+
+.tl-body h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 3px;
+    line-height: 1.35;
+    transition: color 0.2s;
+}
+.tl-item:hover .tl-body h3 { color: var(--accent); }
+
+.tl-team {
+    font-size: 0.72rem;
+    color: var(--accent2);
+    font-family: 'Share Tech Mono', monospace;
+    margin-bottom: 7px;
+    letter-spacing: 0.03em;
+}
+.tl-body p {
+    font-size: 0.84rem;
+    color: var(--text-muted);
+    line-height: 1.7;
+}
+
+.tl-img {
+    width: 100%;
+    max-width: 420px;
+    height: 190px;
+    object-fit: cover;
+    border-radius: 6px;
+    margin-top: 12px;
+    border: 1px solid var(--border);
+    display: block;
+    filter: saturate(0.9) brightness(0.85);
+    transition: all 0.4s;
+}
+.tl-img:hover {
+    filter: saturate(1.1) brightness(1);
+    border-color: var(--border-bright);
+    transform: scale(1.01);
+}
+
+/* ── PUBLICATIONS ── */
+.pub-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-left: 2px solid var(--accent2);
+    padding: 14px 16px;
+    border-radius: 0 6px 6px 0;
+    margin-top: 12px;
+    transition: all 0.25s;
+}
+.pub-card:hover {
+    border-left-color: var(--accent);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    transform: translateX(3px);
+}
+.pub-card strong {
+    font-size: 0.82rem;
+    color: var(--text);
+    display: block;
+    margin-bottom: 5px;
+    line-height: 1.45;
+    font-weight: 500;
+}
+.pub-card p {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    line-height: 1.55;
+    margin-bottom: 8px;
+}
+.pub-link {
+    color: var(--accent);
+    text-decoration: none;
+    font-size: 0.72rem;
+    font-family: 'Share Tech Mono', monospace;
+    letter-spacing: 0.05em;
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+.pub-link:hover {
+    color: #fff;
+    text-shadow: 0 0 8px var(--accent);
+}
+
+/* ── SCROLL ANIMATIONS ── */
+.reveal {
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ── CORNER DECORATION ── */
+.corner-deco {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.6rem;
+    color: var(--text-muted);
+    opacity: 0.4;
+    z-index: 5;
+    line-height: 1.6;
+    text-align: right;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 820px) {
+    #sidebar { width: 100%; min-width: unset; position: relative; height: auto; flex-direction: row; flex-wrap: wrap; }
+    #main { margin-left: 0; padding: 24px 18px; }
+    .tl-left { width: 58px; min-width: 58px; }
+    .hero h1 { font-size: 2rem; }
+}
+</style>
 </head>
 <body>
+
+<canvas id="bg-canvas"></canvas>
 
 <!-- ═══ SIDEBAR ═══════════════════════════════════════ -->
 <aside id="sidebar">
 
-    <div class="sidebar-name">Sahid<br>Hernandez</div>
+    <div>
+        <div class="sidebar-label">// Engineer</div>
+        <div class="sidebar-name">Sahid<br><span>Hernandez</span></div>
+    </div>
 
     <div class="sidebar-photo">
         <img src="imagenes/foto.jpg" alt="Sahid Hernandez">
     </div>
 
     <p class="sidebar-tagline">
-        Ingeniería mecatrónica y robótica autónoma — donde el código toma forma física.
+        Robótica autónoma —<br>donde el código toma forma física.
     </p>
 
-    <div class="sidebar-links">
-        <a href="https://github.com/SahidHernandez" target="_blank">🌐 Ver perfil en GitHub</a>
-        <span class="sidebar-repo">SahidHernandez / portfolio</span>
+    <div class="status-dot">DISPONIBLE · ACTIVO</div>
 
-        <div class="dl-buttons" style="margin-top:8px;">
-            <a class="dl-btn" href="https://github.com/SahidHernandez" target="_blank">
-                <strong>GitHub</strong>Perfil
-            </a>
-            <a class="dl-btn" href="https://www.linkedin.com/in/sahid-hern%C3%A1ndez-0b0843290/" target="_blank">
-                <strong>LinkedIn</strong>Perfil
-            </a>
-            <a class="dl-btn" href="mailto:sahidsilvany@gmail.com">
-                <strong>Email</strong>Contacto
-            </a>
-        </div>
+    <hr class="sidebar-divider">
+
+    <div class="dl-buttons">
+        <a class="dl-btn" href="https://github.com/SahidHernandez" target="_blank">
+            <span class="btn-icon">⌥</span> GitHub
+        </a>
+        <a class="dl-btn" href="https://www.linkedin.com/in/sahid-hern%C3%A1ndez-0b0843290/" target="_blank">
+            <span class="btn-icon">◈</span> LinkedIn
+        </a>
+        <a class="dl-btn" href="mailto:sahidsilvany@gmail.com">
+            <span class="btn-icon">◉</span> Contacto
+        </a>
     </div>
 
     <hr class="sidebar-divider">
 
     <div class="sidebar-footer">
-        <p>Ingeniería Mecatrónica<br>AICistem Labs · Nix-Lab</p>
-        <p style="margin-top:10px;">Ciudad Victoria, Tamaulipas, MX</p>
+        Ing. Mecatrónica
     </div>
 
 </aside>
 
-<!-- ═══ MAIN CONTENT ═══════════════════════════════════ -->
+<!-- ═══ MAIN ═══════════════════════════════════════════ -->
 <main id="main">
 
-    <!-- TÍTULO -->
-    <div class="page-title">
-        <h1>Ingeniería Mecatrónica<br>& Robótica Autónoma</h1>
-        <p class="subtitle">Posición Actual — Ingeniero en Robótica y Gemelos Digitales · AICistem Labs</p>
-
+    <div class="hero">
+        <div class="hero-eyebrow">Ingeniería Mecatrónica</div>
+        <h1>Conoceme<br><span class="highlight">Mas</span></h1>
+        <div class="hero-sub">
+            <span>AICistem Labs</span>
+            <span class="sep">·</span>
+            <span>Nix-Lab / Sentinel NXL</span>
+            <span class="sep">·</span>
+            <span>RoboCup 2026</span>
+        </div>
+        <p style="font-size:0.88rem; color:var(--text-muted); line-height:1.7; max-width:580px;">
+            Soy un gran apasionado en el mundo de la robótica, donde lo programado se ve en físico. Me motiva desarrollar e implementar tecnología beneficiosa para la sociedad, combinando el rigor de la ingeniería con la flexibilidad del desarrollo moderno.
+        </p>
         <div class="contact-row">
-            <a class="contact-btn btn-github" href="https://github.com/SahidHernandez" target="_blank">🌐 GitHub</a>
-            <a class="contact-btn btn-linkedin" href="https://www.linkedin.com/in/sahid-hern%C3%A1ndez-0b0843290/" target="_blank">💼 LinkedIn</a>
-            <a class="contact-btn btn-email" href="mailto:sahidsilvany@gmail.com">✉️ Contacto</a>
+            <a class="contact-btn" href="https://github.com/SahidHernandez" target="_blank">⌥ GitHub</a>
+            <a class="contact-btn" href="https://www.linkedin.com/in/sahid-hern%C3%A1ndez-0b0843290/" target="_blank">◈ LinkedIn</a>
+            <a class="contact-btn" href="mailto:sahidsilvany@gmail.com">◉ Email</a>
         </div>
     </div>
 
-    <!-- SOBRE MÍ -->
-    <div class="summary-block">
-        <p>Soy un gran apasionado en el mundo de la robótica, donde lo programado se ve en físico. No me limito a proyectos personales o académicos; me motiva el poder desarrollar e implementar tecnología beneficiosa para la sociedad.</p>
-        <p>A lo largo de mi trayectoria, he enfocado mi aprendizaje en el ecosistema de la robótica autónoma, los sistemas embebidos y la automatización industrial. Mi enfoque combina el rigor de la ingeniería con la flexibilidad del desarrollo moderno, buscando siempre optimizar procesos, integrar sensores complejos y crear sistemas robustos.</p>
-    </div>
-
     <!-- HABILIDADES -->
-    <div class="section">
-        <h2>⚙️ Competencias Técnicas</h2>
+    <div class="section reveal" style="animation-delay:0.1s">
+        <div class="section-header">
+            <h2>Competencias Técnicas</h2>
+            <span class="section-tag">Stack</span>
+        </div>
         <div class="skills-grid">
             <div class="skill-card">
-                <h3>⚡ Electrónica & Hardware</h3>
+                <h3>// Hardware</h3>
                 <ul>
-                    <li>Sistemas de control para robótica móvil</li>
+                    <li>Sistemas de control robótica móvil</li>
                     <li>NVIDIA Jetson (AGX Orin, Orin NX)</li>
-                    <li>Fusión de sensores: IMUs, Lidars, RealSense</li>
+                    <li>Fusión sensores: IMU, Lidar, RealSense</li>
                     <li>Protocolos industriales e IoT (LoRa)</li>
                 </ul>
             </div>
-            <div class="skill-card">
-                <h3>🤖 Robótica & IA</h3>
+            <div class="skill-card" style="border-top-color: var(--accent2);">
+                <h3 style="color:var(--accent2);">// Robótica & IA</h3>
                 <ul>
-                    <li>ROS2 Humble — nodos, Nav2, TF2</li>
-                    <li>Unitree Go2 — autonomía y teleoperación</li>
+                    <li>ROS2 Humble — Nav2, TF2, nodos</li>
+                    <li>Unitree Go2 — autonomía y teleop</li>
                     <li>Isaac Sim / Isaac Lab (RL sim-to-real)</li>
                     <li>CNN y Deep Learning en tiempo real</li>
                 </ul>
             </div>
-            <div class="skill-card">
-                <h3>💻 Software & Simulación</h3>
+            <div class="skill-card" style="border-top-color: var(--accent3);">
+                <h3 style="color:var(--accent3);">// Software</h3>
                 <ul>
                     <li>Python, C++, Node.js</li>
                     <li>Gazebo, 3D Gaussian Splatting</li>
                     <li>CycloneDDS, Socket.IO, WebSocket</li>
-                    <li>LaTeX / Overleaf para artículos científicos</li>
+                    <li>LaTeX / Overleaf</li>
                 </ul>
             </div>
         </div>
     </div>
 
     <!-- TRAYECTORIA -->
-    <div class="section">
-        <h2>📋 Trayectoria & Bitácora de Campo</h2>
-        <p style="font-size:0.87rem; color:var(--text-muted); margin-bottom:24px; font-style:italic;">Más allá del código, me mueve la experimentación constante. Los desafíos que he enfrentado y los proyectos que he visto cobrar vida.</p>
+    <div class="section reveal">
+        <div class="section-header">
+            <h2>Trayectoria & Bitácora</h2>
+            <span class="section-tag">Log</span>
+        </div>
 
         <div class="timeline">
 
-            <!-- Actualidad -->
-            <div class="tl-item">
+            <div class="tl-item reveal">
                 <div class="tl-left"><span class="tl-badge">2026</span></div>
                 <div class="tl-body">
                     <h3>Rumbo a RoboCup 2026 — Incheon, Corea del Sur</h3>
-                    <p class="tl-team">Organización: Nix-Lab | Equipo: Sentinel NXL</p>
-                    <p>Diseño, optimización y preparación del sistema robótico autónomo para representar a México en el certamen mundial de robótica.</p>
+                    <p class="tl-team">Nix-Lab | Equipo: Sentinel NXL</p>
+                    <p>Actualmente me encuentro colaborando activamente con el equipo de Nix-Lab. Nos estamos preparando intensamente para representar a México en el certamen mundial de robótica en Incheon, Corea del Sur, enfocándome en el diseño, optimización y puesta a punto de los sistemas robóticos autónomos.</p>
                 </div>
             </div>
 
-            <!-- Abril 2026 -->
-            <div class="tl-item">
+            <div class="tl-item reveal">
                 <div class="tl-left"><span class="tl-badge">Abr 26</span></div>
                 <div class="tl-body">
-                    <h3>🥇 1er Lugar Nacional — Torneo Mexicano de Robótica (Puebla)</h3>
+                    <h3>🥇 1er Lugar Nacional — TMR (Puebla)</h3>
                     <p class="tl-team">Equipo: Sentinel ACL</p>
-                    <p>Desarrollo de periféricos y algoritmos de visión computacional para reconocimiento en entornos dinámicos, obteniendo el campeonato nacional.</p>
+                    <p>Fui partícipe en esta edición del Torneo Mexicano de Robótica con el equipo Sentinel ACL, donde logramos coronarnos con el primer lugar nacional. En este proyecto, mi aportación se centró en el desarrollo de los algoritmos de visión computacional y la integración de periféricos esenciales para el reconocimiento en entornos dinámicos.</p>
                     <img class="tl-img" src="imagenes/tmr2026.jpg" alt="TMR 2026">
                 </div>
             </div>
 
-            <!-- Enero 2026 -->
-            <div class="tl-item">
+            <div class="tl-item reveal">
                 <div class="tl-left"><span class="tl-badge">Ene 26</span></div>
                 <div class="tl-body">
-                    <h3>Ingeniero en Robótica y Gemelos Digitales — AICistem Labs</h3>
-                    <p>Desarrollo de funciones de autonomía sobre plataformas cuadrúpedas (Unitree Go2). Especialización en simulación avanzada con NVIDIA Isaac Sim e Isaac Lab para validación de algoritmos.</p>
+                    <h3>Ingeniero en Robótica y Gemelos Digitales</h3>
+                    <p class="tl-team">AICistem Labs</p>
+                    <p>A inicios de año me integré al equipo de Ai Cistem Labs. Inicialmente trabajé dotando de autonomía y funciones avanzadas de seguridad a plataformas cuadrúpedas (Unitree Go2). Posteriormente, transicioné al área de Gemelos Digitales, donde utilicé el ecosistema de simulación avanzada de NVIDIA (Isaac Sim e Isaac Lab) para validar algoritmos robóticos en entornos virtuales hiperrealistas.</p>
                     <img class="tl-img" src="imagenes/robo.jpg" alt="AICistem Labs">
                     <img class="tl-img" src="imagenes/gd.jpeg" alt="Isaac Sim">
                 </div>
             </div>
 
-            <!-- Sep-Dic 2025 -->
-            <div class="tl-item">
+            <div class="tl-item reveal">
                 <div class="tl-left"><span class="tl-badge">Sep 25</span></div>
                 <div class="tl-body">
                     <h3>Divulgación Científica & Gira Tecnológica</h3>
-                    <p>Expositor en el "Día del Investigador" y ponente con la investigación: <em>"Implementación de un sistema de navegación reactiva y planificación de cobertura para un robot móvil agrícola"</em>.</p>
-                    <img class="tl-img" src="imagenes/di.jpeg" alt="Divulgación Científica">
+                    <p>Fui expositor en el marco del evento del "Día del Investigador", donde presenté una demostración práctica de un robot agronómico y un sistema de monitoreo de contaminantes en tiempo real. Asimismo, durante los meses restantes del año, estuve participando como ponente en distintas instituciones, exponiendo mi trabajo de investigación técnica enfocado en la implementación de sistemas de navegación reactiva y planificación de cobertura agrícola.</p>
+                    <img class="tl-img" src="imagenes/di.jpeg" alt="Divulgación">
                 </div>
             </div>
 
-            <!-- Agosto 2025 -->
-            <div class="tl-item">
+            <div class="tl-item reveal">
                 <div class="tl-left"><span class="tl-badge">Ago 25</span></div>
                 <div class="tl-body">
-                    <h3>📄 Publicaciones Científicas</h3>
-                    <p>Difusión de conocimiento en revistas especializadas:</p>
-
+                    <h3>📄 Publicaciones Científicas e Investigación</h3>
+                    <p style="margin-bottom: 12px;">Durante este periodo, consolidé una de mis metas profesionales al redactar, estructurar y publicar mis primeros trabajos de investigación técnica en plataformas indexadas internacionales y revistas especializadas:</p>
+                    
                     <div class="pub-card">
                         <strong>"Inteligencia Artificial e IoT para el monitoreo agrícola: una revisión de tendencias actuales"</strong>
-                        <p>Análisis sobre la convergencia de tecnologías embebidas y modelos predictivos para optimizar entornos de cultivo y gestión fitosanitaria.</p>
-                        <a class="pub-link" href="https://rmic.uat.edu.mx/index.php/MI/article/view/4" target="_blank">Leer publicación →</a>
+                        <p>Logré publicar mi primer artículo científico como autor principal. En este trabajo, me dediqué a realizar un análisis profundo sobre cómo la convergencia de hardware embebido, sensores y modelos predictivos está optimizando el sector agrícola y la gestión fitosanitaria.</p>
+                        <a class="pub-link" href="https://rmic.uat.edu.mx/index.php/MI/article/view/4" target="_blank">Leer mi publicación →</a>
                     </div>
-
+                    
                     <div class="pub-card">
-                        <strong>"Heart Attack Risk Prediction via Stacked Ensemble Metamodeling: A Machine Learning Framework for Real-Time Clinical Decision Support"</strong>
-                        <p>Coautoría en el diseño de un framework de Machine Learning basado en metamodelos ensamblados para soporte de decisiones médicas críticas.</p>
-                        <a class="pub-link" href="https://www.mdpi.com/2227-9709/12/4/110" target="_blank">Ver en Journal →</a>
+                        <strong>"Heart Attack Risk Prediction via Stacked Ensemble Metamodeling"</strong>
+                        <p>Fui partícipe directo como segundo autor en el diseño y validación de este framework de Machine Learning. Colaboré de cerca en la integración de metamodelos ensamblados orientados a soportar decisiones médicas críticas en tiempo real.</p>
+                        <a class="pub-link" href="https://www.mdpi.com/2227-9709/12/4/110" target="_blank">Ver artículo en Journal →</a>
                     </div>
                 </div>
             </div>
 
-            <!-- Julio 2025 RoboCup -->
-            <div class="tl-item">
+            <div class="tl-item reveal">
                 <div class="tl-left"><span class="tl-badge">Jul 25</span></div>
                 <div class="tl-body">
-                    <h3>🌍 8vo Lugar Mundial — RoboCup 2025 (Salvador de Bahía, Brasil)</h3>
+                    <h3>🌍 8vo Lugar Mundial — RoboCup 2025 (Brasil)</h3>
                     <p class="tl-team">Equipo: Nixito | Líder de Control y Teleoperaje</p>
-                    <p>Diseño de sistemas de teleoperación de baja latencia para escenarios de desastre, posicionándonos en el Top 8 mundial frente a 18 países.</p>
+                    <p>Viajé a Salvador de Bahía, Brasil, para competir en el certamen mundial de robótica. Fungí como líder del departamento de control y teleoperaje del robot Nixito, donde diseñamos sistemas de teleoperación de baja latencia para escenarios de desastre, logrando posicionar a México en el 8vo lugar internacional frente a 18 países participantes.</p>
                     <img class="tl-img" src="imagenes/robocup.jpg" alt="RoboCup Brasil">
-                    <img class="tl-img" src="imagenes/robot.jpg" alt="Robot RoboCup">
+                    <img class="tl-img" src="imagenes/robot.jpg" alt="Robot">
                 </div>
             </div>
 
-            <!-- Julio 2025 Taller -->
-            <div class="tl-item">
+            <div class="tl-item reveal">
                 <div class="tl-left"><span class="tl-badge">Jul 25</span></div>
                 <div class="tl-body">
                     <h3>Taller Internacional de Geointeligencia Fitosanitaria</h3>
-                    <p>Especialización técnica en la integración de IA en la agronomía moderna y retos de monitoreo inteligente de cultivos.</p>
+                    <p>Participé en esta capacitación especializada donde profundicé en los retos actuales de la geointeligencia fitosanitaria y analizamos la capacidad de la Inteligencia Artificial para asistir de manera inteligente a los ingenieros agrónomos.</p>
                     <img class="tl-img" src="imagenes/geo.jpg" alt="Geointeligencia">
                 </div>
             </div>
 
-            <!-- Mayo 2025 UAT -->
-            <div class="tl-item">
+            <div class="tl-item reveal">
                 <div class="tl-left"><span class="tl-badge">May 25</span></div>
                 <div class="tl-body">
-                    <h3>Ponente e Instructor Invitado — UAT</h3>
-                    <p>Cátedra y taller práctico <em>"Uso e implementación del protocolo LoRa"</em> a estudiantes de Telemática de la Facultad de Ingeniería y Ciencias.</p>
-                    <img class="tl-img" src="imagenes/lorat.jpg" alt="Taller LoRa UAT">
+                    <h3>Ponente e Instructor — UAT</h3>
+                    <p>Tuve la gran oportunidad de ser ponente e instructor invitado en la Facultad de Ingeniería y Ciencias de la UAT. Impartí una cátedra y un taller práctico sobre el "Uso e implementación del protocolo LoRa" dirigido a estudiantes de la carrera de Telemática.</p>
+                    <img class="tl-img" src="imagenes/lorat.jpg" alt="Taller LoRa">
                 </div>
             </div>
 
-            <!-- Mayo 2025 TMR -->
-            <div class="tl-item">
+            <div class="tl-item reveal">
                 <div class="tl-left"><span class="tl-badge">May 25</span></div>
                 <div class="tl-body">
                     <h3>4to Lugar Nacional & Clasificación Internacional — TMR</h3>
                     <p class="tl-team">Equipo: NXL-ALPHA</p>
-                    <p>Cuarto puesto nacional y pase directo al mundial de robótica en Brasil.</p>
+                    <p>Fui partícipe en el Torneo Mexicano de Robótica con mi equipo NXL-ALPHA, donde obtuvimos la cuarta posición a nivel nacional y logramos asegurar nuestra clasificación directa al mundial de robótica en Brasil.</p>
                     <img class="tl-img" src="imagenes/st2025.jpg" alt="TMR 2025">
                 </div>
             </div>
 
-            <!-- 2024 CNN -->
-            <div class="tl-item">
+            <div class="tl-item reveal">
                 <div class="tl-left"><span class="tl-badge">2024</span></div>
                 <div class="tl-body">
                     <h3>Visión Artificial: Clasificación Biológica (CNN)</h3>
-                    <p>Desarrollo y entrenamiento de modelo CNN para detección y monitoreo del Pez León (especie invasora).</p>
+                    <p>Colaboré con un equipo de trabajo enfocado en el desarrollo de un modelo de Redes Neuronales Convolucionales (CNN) destinado a la detección autónoma y monitoreo del pez león, una especie marina altamente invasora.</p>
                 </div>
             </div>
 
-            <!-- Abril 2024 -->
-            <div class="tl-item">
+            <div class="tl-item reveal">
                 <div class="tl-left"><span class="tl-badge">Abr 24</span></div>
                 <div class="tl-body">
-                    <h3>5to Lugar Nacional — TMR (Rescue Major)</h3>
+                    <h3>5to Lugar Nacional — TMR Rescue Major</h3>
                     <p class="tl-team">Equipo: Shelter</p>
-                    <p>Diseño de la Unidad de Control Teleoperada (UCT), optimizando la interfaz y comunicaciones críticas operador-robot.</p>
+                    <p>Participé en el Torneo Mexicano de Robótica bajo la categoría Rescue Major con el equipo Shelter, obteniendo el 5to lugar a nivel nacional. En esta competencia, mi rol principal fue diseñar y poner en marcha una Unidad de Control Teleoperada (UCT) para optimizar la interfaz del robot.</p>
                     <img class="tl-img" src="imagenes/tmr2024.jpeg" alt="TMR 2024">
                 </div>
             </div>
 
-            <!-- 2023 EPP -->
-            <div class="tl-item">
+            <div class="tl-item reveal">
                 <div class="tl-left"><span class="tl-badge">2023</span></div>
                 <div class="tl-body">
-                    <h3>Mentoría en Visión Artificial: Proyecto EPP Watchdog</h3>
-                    <p>Desarrollo de modelo de identificación de Equipo de Protección Personal para automatización de la seguridad industrial.</p>
+                    <h3>Mentoría — Proyecto EPP Watchdog</h3>
+                    <p>Apoyé de manera externa a estudiantes de preparatoria en la integración de modelos de visión artificial para su proyecto "EPP Watchdog". Específicamente, desarrollé un modelo enfocado en la identificación automática de Equipo de Protección Personal para mejorar la seguridad en plantas industriales.</p>
                 </div>
             </div>
 
-            <!-- Mayo 2023 -->
-            <div class="tl-item">
+            <div class="tl-item reveal">
                 <div class="tl-left"><span class="tl-badge">May 23</span></div>
                 <div class="tl-body">
-                    <h3>🥇 1er Lugar Nacional — Torneo Mexicano de Robótica</h3>
+                    <h3>🥇 1er Lugar Nacional — TMR</h3>
                     <p class="tl-team">Equipo: Medio Metro</p>
-                    <p>Gestión integral de la electrónica de control y programación de movimientos dinámicos del robot, logrando el campeonato nacional.</p>
+                    <p>Fui integrante del equipo "Medio Metro" en el Torneo Mexicano de Robótica, donde nos adjudicamos el primer lugar nacional. Mi participación directa consistió en realizar la gestión de toda la electrónica de control del robot y programar sus movimientos dinámicos en pista.</p>
                     <img class="tl-img" src="imagenes/tmr2023.jpg" alt="TMR 2023">
-                    <img class="tl-img" src="imagenes/mm2023.jpg" alt="Robot Medio Metro">
+                    <img class="tl-img" src="imagenes/mm2023.jpg" alt="Medio Metro">
                 </div>
             </div>
 
@@ -647,5 +890,87 @@
 
 </main>
 
+<div class="corner-deco">
+    SYS_OK · v2.0<br>
+    sahid@aicistem
+</div>
+
+<script>
+// ── GRID BACKGROUND CANVAS ──
+const canvas = document.getElementById('bg-canvas');
+const ctx = canvas.getContext('2d');
+let W, H, dots;
+
+function resize() {
+    W = canvas.width = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+    initDots();
+}
+
+function initDots() {
+    dots = [];
+    const spacing = 44;
+    for (let x = 0; x < W; x += spacing) {
+        for (let y = 0; y < H; y += spacing) {
+            dots.push({
+                x: x + Math.random() * 6 - 3,
+                y: y + Math.random() * 6 - 3,
+                baseAlpha: Math.random() * 0.25 + 0.05,
+                alpha: 0,
+                phase: Math.random() * Math.PI * 2,
+                speed: 0.008 + Math.random() * 0.012
+            });
+        }
+    }
+}
+
+let raf;
+function animate(t) {
+    ctx.clearRect(0, 0, W, H);
+    dots.forEach(d => {
+        d.alpha = d.baseAlpha * (0.5 + 0.5 * Math.sin(t * 0.001 * d.speed * 80 + d.phase));
+        ctx.beginPath();
+        ctx.arc(d.x, d.y, 1, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(56,189,248,${d.alpha})`;
+        ctx.fill();
+    });
+
+    // faint horizontal scan line
+    const scanY = (t * 0.04) % H;
+    const grad = ctx.createLinearGradient(0, scanY - 60, 0, scanY + 60);
+    grad.addColorStop(0, 'rgba(56,189,248,0)');
+    grad.addColorStop(0.5, 'rgba(56,189,248,0.04)');
+    grad.addColorStop(1, 'rgba(56,189,248,0)');
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, scanY - 60, W, 120);
+
+    raf = requestAnimationFrame(animate);
+}
+
+window.addEventListener('resize', resize);
+resize();
+requestAnimationFrame(animate);
+
+// ── SCROLL REVEAL ──
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+        if (e.isIntersecting) {
+            setTimeout(() => e.target.classList.add('visible'), i * 60);
+            observer.unobserve(e.target);
+        }
+    });
+}, { threshold: 0.08 });
+
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// ── GLITCH on hover for h1 ──
+const h1 = document.querySelector('.hero h1');
+if (h1) {
+    h1.addEventListener('mouseenter', () => {
+        h1.style.textShadow = '2px 0 rgba(56,189,248,0.5), -2px 0 rgba(129,140,248,0.5)';
+        setTimeout(() => h1.style.textShadow = '', 200);
+    });
+}
+</script>
 </body>
 </html>
