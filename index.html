@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sahid Hernandez | Trayectoria Mecatrónica</title>
+    <!-- Aquí se conectará el archivo de estilos CSS más adelante -->
+    <style>
+        /* Estilos básicos temporales para que no se vea feo mientras trabajas */
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; color: #333; max-width: 900px; margin: 0 auto; padding: 20px; background-color: #f9f9f9; }
+        header { text-align: center; padding: 40px 0; background: #0f172a; color: white; border-radius: 8px; margin-bottom: 30px; }
+        header h1 { margin: 0; font-size: 2.5rem; }
+        header p { color: #94a3b8; font-size: 1.2rem; }
+        section { background: white; padding: 30px; margin-bottom: 20px; border-radius: 8px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
+        h2 { color: #0f172a; border-bottom: 2px solid #e2e8f0; padding-bottom: 10px; }
+        .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
+        .skill-card { background: #f8fafc; padding: 20px; border-radius: 6px; border-left: 4px solid #3b82f6; }
+        .skill-card h3 { margin-top: 0; color: #1e3a8a; }
+        .timeline-item { border-left: 3px solid #3b82f6; padding-left: 20px; margin-bottom: 25px; position: relative; }
+        .timeline-item::before { content: ''; position: absolute; width: 12px; height: 12px; background: #3b82f6; border-radius: 50%; left: -8px; top: 8px; }
+        .time-badge { font-weight: bold; color: #3b82f6; background: #dbeafe; padding: 2px 8px; border-radius: 4px; font-size: 0.85rem; }
+        .project-team { font-weight: 600; color: #475569; font-size: 0.95rem; }
+    </style>
+</head>
+<body>
+
+    <!-- SECCIÓN 1: HERO / INTRODUCCIÓN -->
+    <header>
+        <h1>Sahid Hernandez</h1>
+        <p>Ingeniero mecatrónico y entusiasta de la robótica, dedicado a conectar el código con el mundo físico a través de la automatización inteligente.</p>
+    </header>
+
+    <!-- SECCIÓN 2: SOBRE MÍ -->
+    <section id="sobre-mi">
+        <h2>Sobre Mí</h2>
+        <p>Soy un gran apasionado en el mundo de la robótica, donde lo programado se ve en físico. No me limito a proyectos personales o académicos; me motiva el poder desarrollar e implementar tecnología beneficiosa para la sociedad.</p>
+        <p>A lo largo de mi trayectoria, he enfocado mi aprendizaje y desarrollo en el ecosistema de la robótica autónoma, los sistemas embebidos y la automatización industrial. Mi enfoque combina el rigor de la ingeniería con la flexibilidad del desarrollo moderno, buscando siempre optimizar procesos, integrar sensores complejos y crear sistemas robustos y eficientes.</p>
+    </section>
+
+    <!-- SECCIÓN 3: COMPETENCIAS Y HABILIDADES (Formato Tarjetas) -->
+    <section id="habilidades">
+        <h2>Competencias y Habilidades Técnicas</h2>
+        <div class="skills-grid">
+            <div class="skill-card">
+                <h3>⚡ Electrónica y Hardware</h3>
+                <ul>
+                    <li>Arquitectura de sistemas de control para robótica móvil.</li>
+                    <li>Cómputo embebido (Familia NVIDIA Jetson) y microcontroladores.</li>
+                    <li>Fusión y filtrado de sensores (IMUs, Lidares, Cámaras de profundidad).</li>
+                    <li>Protocolos de comunicación industrial e IoT (LoRa).</li>
+                </ul>
+            </div>
+            <div class="skill-card">
+                <h3>🤖 Robótica e IA</h3>
+                <ul>
+                    <li>Desarrollo de nodos y arquitectura distribuida bajo ROS / ROS2.</li>
+                    <li>Sistemas de navegación reactiva y planificación de cobertura agrícola.</li>
+                    <li>Visión computacional y modelos Deep Learning (CNN) para detección en tiempo real.</li>
+                </ul>
+            </div>
+            <div class="skill-card">
+                <h3>💻 Software y Simulación</h3>
+                <ul>
+                    <li>Simulación hiperrealista y entrenamiento en NVIDIA Isaac Sim e Isaac Lab.</li>
+                    <li>Automatización web de extremo a extremo (Node.js, Python, Playwright).</li>
+                    <li>Programación avanzada en C++ y Python.</li>
+                    <li>Documentación de ingeniería y artículos científicos en Overleaf / LaTeX.</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECCIÓN 4: TRAYECTORIA (Formato Línea de Tiempo) -->
+    <section id="trayectoria">
+        <h2>Trayectoria y Bitácora de Campo</h2>
+        <p><em>Más allá del código, me mueve la experimentación constante. A continuación, te comparto los desafíos que he enfrentado, las competencias y los proyectos que he visto cobrar vida.</em></p>
+        
+        <br>
+
+        <!-- EVENTO: ACTUALIDAD -->
+        <div class="timeline-item">
+            <span class="time-badge">Actualidad</span>
+            <h3>Rumbo a RoboCup 2026 (Incheon, Corea del Sur)</h3>
+            <p class="project-team">Organización: Nix-Lab | Equipo: Sentinel NXL</p>
+            <p>Diseño, optimización y preparación del sistema robótico autónomo para representar a México en el certamen mundial de robótica.</p>
+        </div>
+
+        <!-- EVENTO: ABRIL 2026 -->
+        <div class="timeline-item">
+            <span class="time-badge">Abril 2026</span>
+            <h3>1er Lugar Nacional - Torneo Mexicano de Robótica (Puebla)</h3>
+            <p class="project-team">Equipo: Sentinel ACL</p>
+            <p>Desarrollo de periféricos y algoritmos de visión computacional para reconocimiento en entornos dinámicos, obteniendo el campeonato nacional.</p>
+        </div>
+
+        <!-- EVENTO: ENERO 2026 -->
+        <div class="timeline-item">
+            <span class="time-badge">Enero 2026</span>
+            <h3>Ingeniero en Robótica y Gemelos Digitales - Ai Cistem Labs</h3>
+            <p>Desarrollo de funciones de autonomía sobre plataformas cuadrúpedas (Unitree Go2) destinadas a seguridad. Especialización en simulación avanzada utilizando tecnologías de NVIDIA (Isaac Sim e Isaac Lab) para validación de algoritmos.</p>
+        </div>
+
+        <!-- EVENTO: SEP-DIC 2025 -->
+        <div class="timeline-item">
+            <span class="time-badge">Sep - Dic 2025</span>
+            <h3>Divulgación Científica y Gira Tecnológica</h3>
+            <p>Expositor en el "Día del Investigador" con el proyecto de robot agronómico y ponente en diversas instituciones con la investigación: <em>"Implementación de un sistema de navegación reactiva y planificación de cobertura para un robot móvil agrícola"</em>.</p>
+        </div>
+
+        <!-- EVENTO: AGOSTO 2025 -->
+        <div class="timeline-item">
+            <span class="time-badge">Agosto 2025</span>
+            <h3>Publicación de Artículos Científicos</h3>
+            <p>Publicación de dos artículos técnicos: uno enfocado en Inteligencia Artificial e IoT aplicados al monitoreo agrícola, y coautor en el framework de Machine Learning para soporte médico en tiempo real <em>"Heart Attack Risk Prediction"</em>.</p>
+        </div>
+
+        <!-- EVENTO: JULIO 2025 -->
+        <div class="timeline-item">
+            <span class="time-badge">Julio 2025</span>
+            <h3>8vo Lugar Mundial - RoboCup 2025 (Salvador de Bahía, Brasil)</h3>
+            <p class="project-team">Equipo: Nixito (Líder de Control y Teleoperaje)</p>
+            <p>Diseño de sistemas de teleoperación de baja latencia aptos para escenarios de desastre globales, posicionándonos en el Top 8 mundial frente a 18 países.</p>
+        </div>
+
+        <!-- EVENTO: JULIO 2025 (TALLER) -->
+        <div class="timeline-item">
+            <span class="time-badge">Julio 2025</span>
+            <h3>Taller Internacional de Geointeligencia Fitosanitaria</h3>
+            <p>Especialización técnica enfocada en la integración de la IA en la agronomía moderna y los retos de monitoreo inteligente de cultivos.</p>
+        </div>
+
+        <!-- EVENTO: MAYO 2025 (UAT) -->
+        <div class="timeline-item">
+            <span class="time-badge">Mayo 2025</span>
+            <h3>Ponente e Instructor Invitado - UAT</h3>
+            <p>Impartición de la cátedra y taller práctico <em>"Uso e implementación del protocolo LoRa"</em> a estudiantes de Telemática de la Facultad de Ingeniería y Ciencias.</p>
+        </div>
+
+        <!-- EVENTO: MAYO 2025 (TMR) -->
+        <div class="timeline-item">
+            <span class="time-badge">Mayo 2025</span>
+            <h3>4to Lugar Nacional y Clasificación Internacional - TMR</h3>
+            <p class="project-team">Equipo: NXL-ALPHA</p>
+            <p>Obtención del cuarto puesto nacional y el pase directo al mundial de robótica en Brasil.</p>
+        </div>
+
+        <!-- EVENTO: 2024 (CNN) -->
+        <div class="timeline-item">
+            <span class="time-badge">Mediados 2024</span>
+            <h3>Visión Artificial: Clasificación Biológica (CNN)</h3>
+            <p>Colaboración en el desarrollo y entrenamiento de un modelo de Redes Neuronales Convolucionales (CNN) para la detección y monitoreo del Pez León (especie invasora).</p>
+        </div>
+
+        <!-- EVENTO: ABRIL 2024 -->
+        <div class="timeline-item">
+            <span class="time-badge">Abril 2024</span>
+            <h3>5to Lugar Nacional - TMR (Rescue Major)</h3>
+            <p class="project-team">Equipo: Shelter</p>
+            <p>Diseño de la Unidad de Control Teleoperada (UCT), optimizando la interfaz y comunicaciones críticas operador-robot.</p>
+        </div>
+
+        <!-- EVENTO: 2023 (EPP) -->
+        <div class="timeline-item">
+            <span class="time-badge">Mediados 2023</span>
+            <h3>Mentoría en Visión Artificial: Proyecto EPP Watchdog</h3>
+            <p>Desarrollo de un modelo de identificación de Equipo de Protección Personal (EPP) para la automatización de la seguridad industrial.</p>
+        </div>
+
+        <!-- EVENTO: MAYO 2023 -->
+        <div class="timeline-item">
+            <span class="time-badge">Mayo 2023</span>
+            <h3>1er Lugar Nacional - Torneo Mexicano de Robótica</h3>
+            <p class="project-team">Equipo: Medio Metro</p>
+            <p>Gestión integral de la electrónica de control y programación de movimientos dinámicos del robot, logrando el campeonato nacional.</p>
+        </div>
+
+    </section>
+
+</body>
+</html>
